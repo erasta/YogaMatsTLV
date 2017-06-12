@@ -6,8 +6,9 @@ class Application {
         tex.needsUpdate = true;
         tex.minFilter = THREE.LinearFilter;
         // debugger;
-        this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x0 });
+        this.lineMaterial = new THREE.LineBasicMaterial({ color: 'black', linewidth: 2 });
         this.imageMaterial = new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide });
+        this.dotMaterial = new THREE.MeshStandardMaterial({color: 'red'});
         this.initGui();
         this.applyGuiChanges();
     }
@@ -40,12 +41,12 @@ class Application {
         this.addParam('matWidth', 1.73).name('Mat width').min(0.1).max(3.0).step(0.001).onChange(this.applyGuiChanges);
     }
 
-    onClick(inter) {
-        // this.sceneManager.scene.remove(this.dot);
-        // if (inter[0].object !== this.mesh) return;
-        // this.dot = new THREE.Mesh(new THREE.SphereGeometry(0.1), new THREE.MeshNormalMaterial());
-        // this.dot.position.copy(inter[0].point);
-        // this.sceneManager.scene.add(this.dot);
+    onMouseMove(inter) {
+        inter = inter.filter(t => t.object === this.plane);
+        if (inter.length === 0) return;
+        this.sceneManager.scene.remove(this.dot);
+        this.sceneManager.scene.add(this.dot = new THREE.Mesh(new THREE.SphereGeometry(0.1), this.dotMaterial));
+        this.dot.position.copy(inter[0].point);
     }
 
     addParam(name, defaultValue, ...args) {

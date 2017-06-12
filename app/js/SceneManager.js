@@ -58,7 +58,7 @@ class SceneManager {
             this.application.init();
         }
 
-        window.addEventListener('click', this.onClick.bind(this), false);
+        window.addEventListener('mousemove', this.onMouseMove.bind(this), false);
         this.animate = this.animate.bind(this);
         this.animate();
     }
@@ -70,7 +70,7 @@ class SceneManager {
         requestAnimationFrame(this.animate);
     }
 
-    onClick(event) {
+    onMouseMove(event) {
         // calculate mouse position in normalized device coordinates (-1 to +1) for both components
         this.mouse = this.mouse || new THREE.Vector2();
         this.mouse.x = (event.offsetX / window.innerWidth) * 2 - 1;
@@ -80,8 +80,8 @@ class SceneManager {
         this.raycaster = this.raycaster || new THREE.Raycaster();
     	this.raycaster.setFromCamera( this.mouse, this.camera );
         let inter = this.raycaster.intersectObjects( this.scene.children );
-        if (inter.length > 0 && this.application.onClick) {
-            this.application.onClick(inter);
+        if (inter.length > 0 && this.application.onMouseMove) {
+            this.application.onMouseMove(inter);
         }
     }
 }

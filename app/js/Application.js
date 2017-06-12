@@ -1,6 +1,13 @@
 class Application {
     init() {
-        this.lineMaterial = new THREE.LineBasicMaterial({color: 0x0});
+        // instantiate a loader
+        let e = document.getElementById('cityimage');
+        let tex = new THREE.Texture( e );
+        tex.needsUpdate = true;
+        tex.minFilter = THREE.LinearFilter;
+        // debugger;
+        this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x0 });
+        this.imageMaterial = new THREE.MeshBasicMaterial({ map: tex });
         this.initGui();
         this.applyGuiChanges();
     }
@@ -18,6 +25,10 @@ class Application {
             let y = i * this.matHeight;
             this.lines.geometry.vertices.push(new THREE.Vector3(halfx, y, 0), new THREE.Vector3(-halfx, y, 0));
         }
+
+        this.sceneManager.scene.remove(this.plane);
+        const geom = new THREE.PlaneGeometry(this.columns * this.matWidth, this.rows * this.matHeight);
+        this.sceneManager.scene.add(this.plane = new THREE.Mesh(geom, this.imageMaterial));
     }
 
     initGui() {

@@ -80,7 +80,7 @@ class SceneManager {
         this.raycaster = this.raycaster || new THREE.Raycaster();
     	this.raycaster.setFromCamera( this.mouse, this.camera );
         let inter = this.raycaster.intersectObjects( this.scene.children );
-        if (inter.length > 0 && this.application.onMouseMove) {
+        if (this.application.onMouseMove) {
             this.application.onMouseMove(inter);
         }
     }

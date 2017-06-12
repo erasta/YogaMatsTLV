@@ -33,20 +33,20 @@ class Application {
         this.sceneManager.scene.add(this.plane = new THREE.Mesh(geom, this.imageMaterial));
     }
 
-    findMat(point) {
-        const xmat = Math.ceil((point.x + this.width / 2) / this.matWidth);
-        const ymat = Math.ceil((point.y + this.height / 2) / this.matHeight);
-        let e = document.getElementById('matLabel');
-        e.textContent = '' + xmat + ', ' + ymat;
-    }
-
     onMouseMove(inter) {
+        let e = document.getElementById('matLabel');
         inter = inter.filter(t => t.object === this.plane);
-        if (inter.length === 0) return;
+        if (inter.length === 0) {
+            e.textContent = 'None';
+            return;
+        }
         this.sceneManager.scene.remove(this.dot);
         this.sceneManager.scene.add(this.dot = new THREE.Mesh(new THREE.SphereGeometry(0.1), this.dotMaterial));
         this.dot.position.copy(inter[0].point);
-        this.findMat(inter[0].point);
+        const point = inter[0].point;
+        const xmat = Math.ceil((point.x + this.width / 2) / this.matWidth);
+        const ymat = Math.ceil((point.y + this.height / 2) / this.matHeight);
+        e.textContent = '' + xmat + ', ' + ymat;
     }
 
     initGui() {

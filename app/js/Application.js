@@ -7,7 +7,7 @@ class Application {
         tex.minFilter = THREE.LinearFilter;
         // debugger;
         this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x0 });
-        this.imageMaterial = new THREE.MeshBasicMaterial({ map: tex });
+        this.imageMaterial = new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide });
         this.initGui();
         this.applyGuiChanges();
     }
@@ -34,10 +34,10 @@ class Application {
     initGui() {
         this.applyGuiChanges = this.applyGuiChanges.bind(this);
         this.gui = new dat.GUI({ autoPlace: true, width: 500 });
-        this.addParam('rows', 10).name('Rows').min(2).max(100).step(1).onChange(this.applyGuiChanges);
-        this.addParam('columns', 10).name('Columns').min(2).max(100).step(1).onChange(this.applyGuiChanges);
-        this.addParam('matWidth', 0.4).name('Mat width').min(0.1).max(3.0).step(0.001).onChange(this.applyGuiChanges);
-        this.addParam('matHeight', 1.8).name('Mat height').min(0.1).max(3.0).step(0.001).onChange(this.applyGuiChanges);
+        this.addParam('rows', 65).name('Rows').min(2).max(100).step(1).onChange(this.applyGuiChanges);
+        this.addParam('columns', 20).name('Columns').min(2).max(100).step(1).onChange(this.applyGuiChanges);
+        this.addParam('matHeight', 0.61).name('Mat height').min(0.1).max(3.0).step(0.001).onChange(this.applyGuiChanges);
+        this.addParam('matWidth', 1.73).name('Mat width').min(0.1).max(3.0).step(0.001).onChange(this.applyGuiChanges);
     }
 
     onClick(inter) {

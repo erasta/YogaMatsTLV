@@ -34,19 +34,24 @@ class Application {
     }
 
     onMouseMove(inter) {
+        this.sceneManager.scene.remove(this.dot);
+
         let e = document.getElementById('matLabel');
         inter = inter.filter(t => t.object === this.plane);
         if (inter.length === 0) {
             e.textContent = 'None';
             return;
         }
-        this.sceneManager.scene.remove(this.dot);
-        this.sceneManager.scene.add(this.dot = new THREE.Mesh(new THREE.SphereGeometry(0.1), this.dotMaterial));
-        this.dot.position.copy(inter[0].point);
+
         const point = inter[0].point;
         const xmat = Math.ceil((point.x + this.width / 2) / this.matWidth);
         const ymat = Math.ceil((point.y + this.height / 2) / this.matHeight);
         e.textContent = '' + xmat + ', ' + ymat;
+
+        const xpos = (xmat - 0.5) * this.matWidth - this.width / 2;
+        const ypos = (ymat - 0.5) * this.matHeight - this.height / 2;
+        this.sceneManager.scene.add(this.dot = new THREE.Mesh(new THREE.SphereGeometry(0.1), this.dotMaterial));
+        this.dot.position.set(xpos, ypos, 0);
     }
 
     initGui() {

@@ -1,7 +1,7 @@
 class Application {
     init() {
         // instantiate a loader
-        let e = document.getElementById('cityimage');
+        let e = document.getElementById('cityImage');
         let tex = new THREE.Texture( e );
         tex.needsUpdate = true;
         tex.minFilter = THREE.LinearFilter;
@@ -34,6 +34,10 @@ class Application {
     }
 
     findMat(point) {
+        const xmat = Math.ceil((point.x + this.width / 2) / this.matWidth);
+        const ymat = Math.ceil((point.y + this.height / 2) / this.matHeight);
+        let e = document.getElementById('matLabel');
+        e.textContent = '' + xmat + ', ' + ymat;
     }
 
     onMouseMove(inter) {
@@ -42,6 +46,7 @@ class Application {
         this.sceneManager.scene.remove(this.dot);
         this.sceneManager.scene.add(this.dot = new THREE.Mesh(new THREE.SphereGeometry(0.1), this.dotMaterial));
         this.dot.position.copy(inter[0].point);
+        this.findMat(inter[0].point);
     }
 
     initGui() {

@@ -31,6 +31,9 @@ class Application {
         this.sceneManager.scene.remove(this.plane);
         const geom = new THREE.PlaneGeometry(this.width, this.height);
         this.sceneManager.scene.add(this.plane = new THREE.Mesh(geom, this.imageMaterial));
+
+        this.sceneManager.scene.remove(this.dot);
+        this.dot = undefined;
     }
 
     onMouseMove(inter) {
@@ -49,7 +52,8 @@ class Application {
         const ypos = (ymat - 0.5) * this.matHeight - this.height / 2;
         if (!this.dot) {
             this.sceneManager.scene.add(this.dot = new THREE.Object3D());
-            // this.dot.add(new THREE.Mesh(new THREE.SphereGeometry(0.1), this.dotMaterial));
+
+            // create arrow
             const cone = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0, 0.5, 8, 1, false), this.dotMaterial);
             cone.rotation.x = Math.PI / 2;
             cone.position.z = 0.25;
@@ -58,6 +62,20 @@ class Application {
             cyl.position.z = 0.75;
             this.dot.add(cone);
             this.dot.add(cyl);
+
+            const path = new THREE.CurvePath();
+            path.autoClose = true;
+            const a = new THREE.Vector3(-this.matWidth / 2, -this.matHeight / 2);
+            const b = new THREE.Vector3(this.matWidth / 2, -this.matHeight / 2);
+            const c = new THREE.Vector3(this.matWidth / 2, this.matHeight / 2);
+            const d = new THREE.Vector3(-this.matWidth / 2, this.matHeight / 2);
+            path.add(new THREE.LineCurve3(a, b));
+            path.add(new THREE.LineCurve3(c, b));
+            path.add(new THREE.LineCurve3(c, d));
+            path.add(new THREE.LineCurve3(d, a));
+            path.add(new THREE.LineCurve3(a, b));
+            const tube = new THREE.Mesh(new THREE.TubeGeometry(path, 350, 0.05, 8, true), this.dotMaterial);
+            this.dot.add(tube);
         }
         this.dot.visible = true;
         this.dot.position.set(xpos, ypos, 0);

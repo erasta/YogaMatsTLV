@@ -11,6 +11,29 @@ class Application {
         this.dotMaterial = new THREE.MeshStandardMaterial({ color: 'red' });
         this.initGui();
         this.applyGuiChanges();
+
+        this.addMesh(new THREE.PlaneGeometry(100, 100), [0, 0, -0.01]); // ground
+        this.addMesh(new THREE.PlaneGeometry(15, 90), [42.5, 0, -0.005], 'cyan'); // pool
+        this.addMesh(new THREE.PlaneGeometry(20, 20), [-40, -40, -0.005], 'cyan'); // fish pool
+        this.addMesh(new THREE.PlaneGeometry(20, 20), [42.5, 30, 4]).rotation.y = -Math.PI / 8; // stairs
+        this.addMesh(new THREE.PlaneGeometry(40, 10), [5, 40, 5]).rotation.x = Math.PI / 2; // screen
+        this.addMesh(new THREE.BoxGeometry(10, 30, 1), [30, 0, 0.5], 'grey'); // stage
+        this.addMesh(new THREE.TetrahedronGeometry(5), [-40, -20, 5], 'grey').rotation.set(Math.PI / 5, Math.PI / 5, 0); // statue
+        this.addMesh(new THREE.TetrahedronGeometry(5), [-40, -20, 5], 'grey').rotation.set(Math.PI * 1.2, Math.PI / 5, 0); // statue
+        this.addMesh(new THREE.BoxGeometry(20, 100, 8), [60, 0, 4], 'burlywood'); // balcony
+        // this.addMesh(new THREE.BoxGeometry(20, 100, 40), [80, 0, 20], 'burlywood'); // city hall
+    }
+
+    addMesh(geom, position, color) {
+        const material = new THREE.MeshLambertMaterial({ color: color || 'dimgray', side: THREE.DoubleSide });
+        const mesh = new THREE.Mesh(geom, material);
+        if (position instanceof Array) {
+            mesh.position.set(position[0], position[1], position[2]);
+        } else {
+            mesh.position.copy(position);
+        }
+        this.sceneManager.scene.add(mesh);
+        return mesh;
     }
 
     applyGuiChanges() {
@@ -34,6 +57,7 @@ class Application {
 
         this.sceneManager.scene.remove(this.dot);
         this.dot = undefined;
+
     }
 
     onMouseMove(inter) {
@@ -88,6 +112,8 @@ class Application {
         this.addParam('columns', 20).name('Columns').min(2).max(100).step(1).onChange(this.applyGuiChanges);
         this.addParam('matHeight', 0.61).name('Mat height').min(0.1).max(3.0).step(0.001).onChange(this.applyGuiChanges);
         this.addParam('matWidth', 1.73).name('Mat width').min(0.1).max(3.0).step(0.001).onChange(this.applyGuiChanges);
+        // this.addParam('rotx', 0).min(-1).max(1).step(0.001).onChange(() => this.statue.rotation.x = this.rotx * Math.PI);
+        // this.addParam('roty', 0).min(-1).max(1).step(0.001).onChange(() => this.statue.rotation.y = this.roty * Math.PI);
     }
 
     addParam(name, defaultValue, ...args) {

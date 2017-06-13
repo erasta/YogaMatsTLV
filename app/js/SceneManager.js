@@ -26,8 +26,8 @@ class SceneManager {
         // document.body.appendChild(stats.domElement);
 
         // CAMERA
-        this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
-        this.camera.position.set(0, -30, 5);
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+        this.camera.position.set(0, -50, 20);
         this.scene.add(this.camera);
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         THREEx.WindowResize(this.renderer, this.camera);
@@ -35,17 +35,15 @@ class SceneManager {
         // Background clear color
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.clear();
-        this.scene.add(new THREE.HemisphereLight(0xffffff, 0x222222));
+        // this.scene.add(new THREE.HemisphereLight(0xffffff, 0x222222));
         // var grid = new THREE.GridHelper(50, 50);
         // grid.rotation.x = Math.PI / 2;
         // this.scene.add(grid);
 
         // Lights
         [
-            [1, 1, 1],
-            [-1, 1, 1],
-            [1, -1, 1],
-            [-1, -1, 1]
+            [1, 1, 10],
+            [-1, -1, 10]
         ].forEach((pos) => {
             var dirLight = new THREE.DirectionalLight(0xffffff, 0.4);
             dirLight.position.set(pos[0] * 100, pos[1] * 100, pos[2] * 100);

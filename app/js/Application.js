@@ -107,7 +107,7 @@ class Application {
 
     initGui() {
         this.applyGuiChanges = this.applyGuiChanges.bind(this);
-        this.gui = new dat.GUI({ autoPlace: true, width: 500 });
+        this.gui = new dat.GUI({ autoPlace: true, width: 500, closed: true });
         this.addParam('rows', 65).name('Rows').min(2).max(100).step(1).onChange(this.applyGuiChanges);
         this.addParam('columns', 20).name('Columns').min(2).max(100).step(1).onChange(this.applyGuiChanges);
         this.addParam('matHeight', 0.61).name('Mat height').min(0.1).max(3.0).step(0.001).onChange(this.applyGuiChanges);
